@@ -6,9 +6,9 @@ services:
     user: node
     working_dir: /home/node/app
     volumes:
-      - ${SITE_DIR}/:/home/node/app
+      - ./site/:/home/node/app
     ports:
       - "8888:8888"
     stdin_open: true
     tty: true
-    command: npx nodemon template.js
+    command: npm run dev
