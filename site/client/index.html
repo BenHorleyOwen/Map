@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Seek</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- LOBBY -->
+  <div id="lobby">
+    <h1>Seek</h1>
+
+    <div id="lobby-home">
+      <button id="create-btn">Create game</button>
+      <div class="divider">or</div>
+      <input id="join-code" placeholder="Game code" maxlength="6" autocomplete="off">
+      <button id="join-btn">Join game</button>
+    </div>
+
+    <div id="lobby-room" hidden>
+      <div id="game-code-display"></div>
+      <p class="hint">Lobby Code</p>
+      <div id="role-select">
+        <button class="role-btn active" data-role="hider">Hider</button>
+        <button class="role-btn" data-role="seeker">Seeker</button>
+      </div>
+      <div id="roster"></div>
+      <button id="start-btn">Start game</button>
+    </div>
+  </div>
+
+  <!-- GAME -->
+  <div id="game" hidden>
+    <div id="map"></div>
+    <div id="hud">
+      <span id="my-role"></span>
+      <span id="timer">--:--</span>
+      <span id="player-count"></span>
+    </div>
+    <div id="stale-warning" hidden>GPS signal lost — move to regain position</div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results" hidden>
+    <h2>Game over</h2>
+    <button onclick="location.href='/'">Play again</button>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="game.js" type="module"></script>
+</body>
+</html>
