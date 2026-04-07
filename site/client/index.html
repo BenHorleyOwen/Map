@@ -8,6 +8,8 @@
   <title>Seek</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
   [hidden] {
@@ -18,45 +20,58 @@
 <body>
 
   <!-- LOBBY -->
-  <div id="lobby">
-    <h1>Seek</h1>
-
-    <div id="lobby-home">
-      <button id="create-btn">Create game</button>
-      <div class="divider">or</div>
-      <input id="join-code" placeholder="Game code" maxlength="6" autocomplete="off">
-      <button id="join-btn">Join game</button>
-    </div>
-
-    <div id="lobby-room" hidden> 
-      <div id="game-code-display"></div>
-      <p class="hint">Lobby Code</p>
-      <div id="role-select">
-        <button class="role-btn active" data-role="hider">Hider</button>
-        <button class="role-btn" data-role="seeker">Seeker</button>
+  <div id="lobby" class="screen">
+    <div class="lobby-inner">
+      <h1>SEEK</h1>
+      <br>
+ 
+      <div id="lobby-home">
+        <button id="create-btn" class="btn-primary">Create Game</button>
+        <div class="divider"><span>or</span></div>
+        <input id="join-code" placeholder="ENTER CODE" maxlength="6" autocomplete="off">
+        <button id="join-btn" class="btn-secondary">Join Game</button>
       </div>
-      <div id="roster"></div>
-      <button id="start-btn">Start game</button>
+ 
+      <div id="lobby-room" hidden>
+        <div class="code-display">
+          <span class="code-label">LOBBY CODE</span>
+          <span id="game-code-display"></span>
+        </div>
+ 
+        <div id="role-select">
+          <button class="role-btn active" data-role="hider">🫣 Hider</button>
+          <button class="role-btn" data-role="seeker">👁 Seeker</button>
+        </div>
+ 
+        <div id="player-count" class="player-count">0 players</div>
+        <div id="roster"></div>
+ 
+        <button id="start-btn" class="btn-primary">Start Game</button>
+      </div>
     </div>
   </div>
-
+ 
   <!-- GAME -->
-  <div id="game" hidden>
+  <div id="game" class="screen" hidden>
     <div id="map"></div>
     <div id="hud">
-      <span id="my-role"></span>
-      <span id="timer">--:--</span>
-      <span id="player-count"></span>
+      <div id="hud-role" class="hud-pill"></div>
+      <div id="timer" class="hud-pill">--:--</div>
+      <div id="player-count-hud" class="hud-pill">-- players</div>
     </div>
-    <div id="stale-warning" hidden>GPS signal lost — move to regain position</div>
+    <div id="stale-warning" hidden>⚠ GPS lost — move to reconnect</div>
+    <!-- Test-only stop button, injected by JS -->
   </div>
-
+ 
   <!-- RESULTS -->
-  <div id="results" hidden>
-    <h2>Game over</h2>
-    <button onclick="location.href='/'">Play again</button>
+  <div id="results" class="screen" hidden>
+    <div class="results-inner">
+      <h2>GAME OVER</h2>
+      <div id="scoreboard"></div>
+      <button id="play-again-btn" class="btn-primary" onclick="location.href='/'">Play Again</button>
+    </div>
   </div>
-
+ 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="game.js" type="module"></script>
 </body>

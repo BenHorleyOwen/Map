@@ -12,6 +12,8 @@ let markers       = {}
 let wakeLock      = null
 let timerInterval = null
 let myRole        = 'hider'
+let gameStartedAt = null
+let gameDurationMs = null
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 if (false && 'serviceWorker' in navigator) { // disabled for dev purposes
@@ -170,6 +172,7 @@ function startGPS() {
     err => console.warn('GPS error', err),
     { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
   )
+  //not actually working?
   navigator.geolocation.getCurrentPosition(sendPosition, () => {}, { enableHighAccuracy: true }) // immdiate initial position
 }
 
