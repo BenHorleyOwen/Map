@@ -14,7 +14,9 @@ let timerInterval = null
 let myRole        = 'hider'
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js')
+if (false && 'serviceWorker' in navigator) { // disabled for dev purposes
+  navigator.serviceWorker.register('/sw.js')
+}
 
 // If arriving with ?game=CODE in the URL, skip straight to lobby room
 const urlCode = new URLSearchParams(location.search).get('game')
@@ -132,6 +134,7 @@ function onGameEnd() {
 
 // ── Game UI ───────────────────────────────────────────────────────────────────
 function startPlay(settings, startedAt) {
+  console.log('Starting game with settings', settings, 'started at', startedAt)
   show('game')
   document.getElementById('my-role').textContent = myRole.toUpperCase()
   initMap()
@@ -142,8 +145,8 @@ function startPlay(settings, startedAt) {
 
 function initMap() {
   if (map) return
-  map = L.map('map').setView([51.5, -0.09], 16)
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  map = L.map('map').setView([51.5, -0.09], 16) 
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
     attribution: '© OpenStreetMap contributors'
   }).addTo(map)
 }
@@ -217,7 +220,7 @@ function updateRoster(players) {
 }
 
 function show(screen) {
-  for (const id of ['lobby', 'game', 'results']) {
+  for (const id of ['lobby', 'game', 'results']) { // show only the specified screen
     document.getElementById(id).hidden = id !== screen
   }
 }
