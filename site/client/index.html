@@ -9,6 +9,11 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
+  <style>
+  [hidden] {
+    display: none !important;
+  }
+</style>
 </head>
 <body>
 
@@ -23,7 +28,7 @@
       <button id="join-btn">Join game</button>
     </div>
 
-    <div id="lobby-room" hidden>
+    <div id="lobby-room" hidden> 
       <div id="game-code-display"></div>
       <p class="hint">Lobby Code</p>
       <div id="role-select">
