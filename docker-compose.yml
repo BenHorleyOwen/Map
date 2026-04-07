@@ -1,4 +1,33 @@
+version: "3.8"
+
 services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    hostname: game-node
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+    volumes:
+      - tailscale-state:/var/lib/tailscale
+    command: >
+      sh -c "
+        tailscaled --tun=userspace-networking &
+        until tailscale status >/dev/null 2>&1; do sleep 1; done;
+        tailscale up --authkey=${TS_AUTHKEY} --hostname=game-node;
+        until tailscale status | grep -q 'game-node'; do sleep 1; done;
+        tailscale serve reset;
+        tailscale serve --bg http://127.0.0.1:8888;
+        tailscale serve status;
+        wait
+      "
+    restart: unless-stopped
+
   node:
     build:
       context: .
@@ -7,8 +36,12 @@ services:
     working_dir: /home/node/app
     volumes:
       - ./site/:/home/node/app
-    ports:
-      - "8888:8888"
+    network_mode: "service:tailscale"
     stdin_open: true
     tty: true
     command: npm run dev
+    depends_on:
+      - tailscale
+
+volumes:
+  tailscale-state:
