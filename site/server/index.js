@@ -19,31 +19,32 @@ app.post('/api/game/create', (req, res) => {
   res.json({ code: game.code })
 })
 
-wss.on('connection', (ws) => {
+wss.on('connection', (ws) => { // initialise a player connection, but they won't be in a game until they send a 'join' message with a code
   let playerId = null
   let gameCode = null
 
   ws.on('message', (raw) => {
     let msg
     try { msg = JSON.parse(raw) } catch { return }
+    console.log('Received message', msg, 'from player', playerId, 'in game', gameCode)
 
-    if (msg.type === 'join') {
+    if (msg.type === 'join') { // { type: 'join', playerId, code }
       playerId = msg.playerId
       gameCode = msg.code
-      const ok = gm.addPlayer(gameCode, playerId, ws)
-      if (!ok) return ws.send(JSON.stringify({ type: 'error', message: 'Game not found' }))
+      const ok = gm.addPlayer(gameCode, playerId, ws) // returns false if game not found, otherwise adds/updates player and returns true
+      if (!ok) return ws.send(JSON.stringify({ type: 'error', message: 'Game not found' })) 
       ws.send(JSON.stringify({ type: 'joined', state: gm.getPublicState(gameCode, playerId) }))
     }
 
-    if (msg.type === 'gps' && playerId) {
+    if (msg.type === 'gps' && playerId) { // { type: 'gps', lat, lng }
       gm.updatePosition(gameCode, playerId, msg.lat, msg.lng)
     }
 
-    if (msg.type === 'setRole' && playerId) {
+    if (msg.type === 'setRole' && playerId) { // { type: 'setRole', role }
       gm.setRole(gameCode, playerId, msg.role)
     }
 
-    if (msg.type === 'startGame' && playerId) {
+    if (msg.type === 'startGame' && playerId) { // only the host can start the game, but we don't need to check that here because gm.startGame will ignore it if it's not allowed
       gm.startGame(gameCode)
     }
   })
@@ -53,5 +54,8 @@ wss.on('connection', (ws) => {
   })
 })
 
+//listen on all interfaces
 const PORT = process.env.PORT || 8888
-server.listen(PORT, () => console.log(`Seek server running on :${PORT}`))
+server.listen(PORT, '0.0.0.0', () =>
+  console.log(`Seek server running on :${PORT}`)
+)
