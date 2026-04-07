@@ -101,7 +101,7 @@ function onSonar(snapshot) {
   for (const p of snapshot) {
     alive.add(p.id)
     if (p.lat == null) {
-      if (markers[p.id]) markers[p.id].setOpacity(0.25)
+      if (markers[p.id]) markers[p.id].setStyle({ opacity: 0.25, fillOpacity: 0.25 })
       continue
     }
     const isSelf = p.id === PLAYER_ID
@@ -115,7 +115,7 @@ function onSonar(snapshot) {
     } else {
       markers[p.id].setLatLng([p.lat, p.lng])
     }
-    markers[p.id].setOpacity(p.stale ? 0.35 : 1)
+    markers[p.id].setStyle({ opacity: 1, fillOpacity: 0.8 }) 
     if (isSelf) map.setView([p.lat, p.lng], map.getZoom())
   }
 
@@ -170,6 +170,7 @@ function startGPS() {
     err => console.warn('GPS error', err),
     { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
   )
+  navigator.geolocation.getCurrentPosition(sendPosition, () => {}, { enableHighAccuracy: true }) // immdiate initial position
 }
 
 function sendPosition(pos) {
