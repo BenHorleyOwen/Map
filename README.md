@@ -8,3 +8,8 @@ to deploy this yourself you need a tailnet and docker (and friends willing to pu
 - place the key under "TS_AUTHKEY" in a .env, for compose to give to the sidecar.
 - when pulling up the compose the machines list should display the node.
 - you want to connect to the "game-node.tail{yournumbers}.ts.net" for https.
+
+### to allow your friends to join:
+  - invite external users
+  - share machine
+  - they should be able to access from the url
