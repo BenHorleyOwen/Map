@@ -124,9 +124,9 @@ input:focus { border-color: var(--accent); }
 .divider {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 .divider::before, .divider::after {
   content: '';
