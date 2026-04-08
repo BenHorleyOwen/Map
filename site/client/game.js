@@ -138,7 +138,7 @@ function onGameEnd() {
 function startPlay(settings, startedAt) {
   console.log('Starting game with settings', settings, 'started at', startedAt)
   show('game')
-  document.getElementById('my-role').textContent = myRole.toUpperCase()
+  document.getElementById('hud-role').textContent = myRole.toUpperCase()
   initMap()
   startGPS()
   requestWakeLock()
@@ -148,7 +148,7 @@ function startPlay(settings, startedAt) {
 function initMap() {
   if (map) return
   map = L.map('map').setView([51.5, -0.09], 16) 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { 
     attribution: '© OpenStreetMap contributors'
   }).addTo(map)
 }
@@ -172,8 +172,7 @@ function startGPS() {
     err => console.warn('GPS error', err),
     { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
   )
-  //not actually working?
-  navigator.geolocation.getCurrentPosition(sendPosition, () => {}, { enableHighAccuracy: true }) // immdiate initial position
+  //navigator.geolocation.getCurrentPosition(sendPosition, () => {}, { enableHighAccuracy: true }) // immdiate initial position
 }
 
 function sendPosition(pos) {
